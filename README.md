@@ -57,7 +57,7 @@ Before you begin, ensure you have the following installed on your machine:
 
 ## Environment Variables
 - Create a .env file in the root directory of your project and add the following environment variables:
-
+    ```bash
     DB_NAME=brighte_eats
     DB_USER=your_username
     DB_PASSWORD=your_password
