@@ -1,17 +1,19 @@
-const leadRepository = require('../repositories/LeadRepository');
-
 class LeadService {
-  async createLead(leadData) {
-    return await leadRepository.create(leadData);
+  constructor(leadRepository) {
+    this.leadRepository = leadRepository;
+  }
+
+  async createLead(data) {
+    return this.leadRepository.create(data);
   }
 
   async getAllLeads() {
-    return await leadRepository.findAll();
+    return this.leadRepository.findAll();
   }
 
   async getLeadById(id) {
-    return await leadRepository.findById(id);
+    return this.leadRepository.findById(id);
   }
 }
 
-module.exports = new LeadService();
+module.exports = LeadService;

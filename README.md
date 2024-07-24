@@ -56,7 +56,7 @@ Before you begin, ensure you have the following installed on your machine:
     Ensure PostgreSQL is configured to accept local connections. Edit the postgresql.conf and pg_hba.conf files if necessary.
 
 ## Environment Variables
-    Create a .env file in the root directory of your project and add the following environment variables:
+- Create a .env file in the root directory of your project and add the following environment variables:
 
     DB_NAME=brighte_eats
     DB_USER=your_username
@@ -66,7 +66,7 @@ Before you begin, ensure you have the following installed on your machine:
     NODE_ENV=development
     PORT=3000
 
-    Note: Don't edit this part with your specific Database credentials.
+- Note: Don't edit this part with your specific Database credentials.
 
 ## Running the Project
 1. **Run Migrations:**
@@ -80,23 +80,24 @@ Before you begin, ensure you have the following installed on your machine:
     ```bash
     npm start
 
-    The application should now be running on http://localhost:3000.
+    
+- The application should now be running on http://localhost:3000.
 
 ## Running Migrations
-    To apply any new migrations, use the following command:
+- To apply any new migrations, use the following command:
     ```bash
     npx sequelize-cli db:migrate
 
-    If you need to undo the last migration, use:
+- If you need to undo the last migration, use:
     ```bash
     npx sequelize-cli db:migrate:undo
 
 ## Running Tests
-    To run the unit tests, use:
+- To run the unit tests, use:
     ```bash
     npm test
 
 ## Additional Notes:
-    Debugging: For automatic server restarts during development, consider using nodemon. Install it globally or as a dev dependency:
+- Debugging: For automatic server restarts during development, consider using nodemon. Install it globally or as a dev dependency:
     ```bash
     npm install --save-dev nodemon
