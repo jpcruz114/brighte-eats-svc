@@ -46,7 +46,7 @@ Before you begin, ensure you have the following installed on your machine:
     ```bash
     psql -U postgres
 
-    Inside the `psql` shell, run:
+- Inside the `psql` shell, run:
     ```bash
     CREATE DATABASE brighte_eats;
     CREATE USER 'your_username' WITH PASSWORD 'your_password';
