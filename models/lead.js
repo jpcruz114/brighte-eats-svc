@@ -1,4 +1,3 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Lead = sequelize.define('Lead', {
     name: {
@@ -21,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
     },
-  }, {});
+  });
+
+  // If you have associations, define them here
+  Lead.associate = function(models) {
+    // associations can be defined here
+  };
+
   return Lead;
 };
