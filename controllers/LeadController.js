@@ -2,6 +2,7 @@ const LeadService = require('../Services/LeadService');
 const LeadRepository = require('../repositories/LeadRepository');
 
 const leadService = new LeadService(LeadRepository);
+const defaultSort = 'createdAt,desc';
 
 const create = async (req, res) => {
   const { name, email, mobile, postcode, services } = req.body;
@@ -18,13 +19,15 @@ const create = async (req, res) => {
 
 const index = async (req, res)  => {
   const filters = req.query;
+  const sort = filters.sort || defaultSort;
+  delete filters.sort;
 
   if (req.query.postcode) {
     filters.postcode = parseInt(req.query.postcode);
   }
 
   try {
-    const leads = await leadService.getAllLeads(filters);
+    const leads = await leadService.getAllLeads(filters, sort);
     res.status(200).json({ data: { leads } });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Server error' });
