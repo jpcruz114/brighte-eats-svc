@@ -6,7 +6,7 @@ class LeadRepository {
     return await Lead.create(leadData);
   }
 
-  async findAll(filters = {}) {
+  async findAll(filters = {}, sort) {
     const whereClause = {};
 
     Object.keys(filters).forEach(key => {
@@ -23,7 +23,12 @@ class LeadRepository {
       }
     });
 
-    return Lead.findAll({ where: whereClause });
+    const [sortColumn, sortOrder] = sort.split(',');
+
+    return Lead.findAll({ 
+      where: whereClause,
+      order: [[sortColumn, sortOrder]]
+    });
   }
 
   async findById(id) {

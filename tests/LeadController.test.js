@@ -53,7 +53,7 @@ describe('LeadController', () => {
     expect(response.body).toEqual({ data: { leads } });
   });
 
-  it('should get all leads with filters', async () => {
+  it('should get all leads with filters and sort', async () => {
     const filters = { name: 'John Doe', postcode: 3019 };
     const leads = [{ 
       id: 1, 
@@ -63,15 +63,34 @@ describe('LeadController', () => {
       postcode: 3019,
       services: ['delivery']
     }];
+    const sort = 'name,desc';
     LeadService.prototype.getAllLeads.mockResolvedValue(leads);
 
     const response = await request(app)
       .get('/api/leads')
-      .query(filters);
+      .query({ ...filters, sort});
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({ data: { leads } });
-    expect(LeadService.prototype.getAllLeads).toHaveBeenCalledWith(filters);
+    expect(LeadService.prototype.getAllLeads).toHaveBeenCalledWith(filters, sort);
+  });
+
+  it('should get all leads with default sort', async () => {
+    const leads = [{
+      id: 1,
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      mobile: '+639951099257',
+      postcode: 3019,
+      services: ['delivery']
+    }];
+    LeadService.prototype.getAllLeads.mockResolvedValue(leads);
+
+    const response = await request(app).get('/api/leads');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ data: { leads } });
+    expect(LeadService.prototype.getAllLeads).toHaveBeenCalledWith({}, 'createdAt,desc');
   });
 
   it('should get lead by id', async () => {
