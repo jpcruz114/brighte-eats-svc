@@ -80,7 +80,6 @@ Before you begin, ensure you have the following installed on your machine:
     ```bash
     npm start
 
-    
 - The application should now be running on http://localhost:3000.
 
 ## Running Migrations
