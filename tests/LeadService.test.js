@@ -47,8 +47,27 @@ describe('LeadService', () => {
     expect(LeadRepository.findAll).toHaveBeenCalledTimes(1);
   });
 
-  it('should get all leads with filters', async () => {
+  it('should get all leads with filters and sort', async () => {
     const filters = { name: 'John Doe', postcode: 3019 };
+    const leads = [{
+      id: 1,
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      mobile: '+639951099257',
+      postcode: 3019,
+      services: ['delivery']
+    }];
+    const sort = 'name,desc';
+    LeadRepository.findAll.mockResolvedValue(leads);
+
+    const result = await leadService.getAllLeads(filters, sort);
+
+    expect(result).toEqual(leads);
+    expect(LeadRepository.findAll).toHaveBeenCalledTimes(1);
+    expect(LeadRepository.findAll).toHaveBeenCalledWith(filters, sort);
+  });
+
+  it('should get all leads with default sort', async () => {
     const leads = [{
       id: 1,
       name: 'John Doe',
@@ -59,11 +78,11 @@ describe('LeadService', () => {
     }];
     LeadRepository.findAll.mockResolvedValue(leads);
 
-    const result = await leadService.getAllLeads(filters);
+    const result = await leadService.getAllLeads({}, 'createdAt,desc');
 
     expect(result).toEqual(leads);
     expect(LeadRepository.findAll).toHaveBeenCalledTimes(1);
-    expect(LeadRepository.findAll).toHaveBeenCalledWith(filters);
+    expect(LeadRepository.findAll).toHaveBeenCalledWith({}, 'createdAt,desc');
   });
 
   it('should get lead by id', async () => {

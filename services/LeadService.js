@@ -7,8 +7,8 @@ class LeadService {
     return this.leadRepository.create(data);
   }
 
-  async getAllLeads(filters = {}) {
-    return this.leadRepository.findAll(filters);
+  async getAllLeads(filters = {}, sort) {
+    return this.leadRepository.findAll(filters, sort);
   }
 
   async getLeadById(id) {
