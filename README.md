@@ -82,6 +82,21 @@ Before you begin, ensure you have the following installed on your machine:
 
 - The application should now be running on http://localhost:3000.
 
+3. **Generating secret key:**
+
+    ```bash
+    node generateSecret
+
+- Put the generated secret key on your .env under JWT_SECRET.
+
+    ```bash
+    JWT_SECRET=your_generated_secret_key
+
+4. **Generating token:**
+
+    ```bash
+    node generateToken
+
 ## Running Migrations
 - To apply any new migrations, use the following command:
     ```bash
