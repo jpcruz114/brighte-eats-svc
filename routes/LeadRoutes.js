@@ -1,10 +1,23 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const leadController = require('../controllers/LeadController');
+const authMiddleware = require("../middlewares/auth");
+const leadController = require("../controllers/LeadController");
 
-router.post('/register', leadController.create);
-router.get('/leads', leadController.index);
-router.get('/leads/:id', leadController.show);
-router.put('/leads/:id', leadController.update);
+router.post("/register", leadController.create);
+router.get(
+  "/leads",
+  authMiddleware,
+  leadController.index
+);
+router.get(
+  "/leads/:id",
+  authMiddleware,
+  leadController.show
+);
+router.put(
+  "/leads/:id",
+  authMiddleware,
+  leadController.update
+);
 
 module.exports = router;
