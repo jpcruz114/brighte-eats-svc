@@ -1,12 +1,19 @@
 const request = require('supertest');
 const app = require('../app');
 const LeadService = require('../Services/LeadService');
+const jwt = require('jsonwebtoken');
+require('dotenv').config(); // Load environment variables
 
 // Mock the LeadService class and its methods
 jest.mock('../Services/LeadService');
 
 describe('LeadController', () => {
   let leadService;
+  let token;
+
+  beforeAll(() => {
+    token = jwt.sign({ id: '12345' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  });
 
   beforeEach(() => {
     // Reset mock implementation before each test
@@ -30,6 +37,7 @@ describe('LeadController', () => {
 
     const response = await request(app)
       .post('/api/register')
+      .set('Authorization', `Bearer ${token}`)
       .send(leads);
 
     expect(response.status).toBe(201);
@@ -47,7 +55,9 @@ describe('LeadController', () => {
     }];
     LeadService.prototype.getAllLeads.mockResolvedValue(leads); // Mock the instance method
 
-    const response = await request(app).get('/api/leads');
+    const response = await request(app)
+      .get('/api/leads')
+      .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({ data: { leads } });
@@ -68,7 +78,8 @@ describe('LeadController', () => {
 
     const response = await request(app)
       .get('/api/leads')
-      .query({ ...filters, sort});
+      .query({ ...filters, sort})
+      .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({ data: { leads } });
@@ -86,7 +97,9 @@ describe('LeadController', () => {
     }];
     LeadService.prototype.getAllLeads.mockResolvedValue(leads);
 
-    const response = await request(app).get('/api/leads');
+    const response = await request(app)
+      .get('/api/leads')
+      .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({ data: { leads } });
@@ -104,7 +117,9 @@ describe('LeadController', () => {
     };
     LeadService.prototype.getLeadById.mockResolvedValue(leads); // Mock the instance method
 
-    const response = await request(app).get('/api/leads/1');
+    const response = await request(app)
+      .get('/api/leads/1')
+      .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({ data: { leads } });
@@ -122,7 +137,8 @@ describe('LeadController', () => {
   
     const response = await request(app)
       .put(`/api/leads/${leadId}`)
-      .send(updatedLead);
+      .send(updatedLead)
+      .set('Authorization', `Bearer ${token}`);
   
     expect(response.status).toBe(200);
     expect(response.body).toEqual({ success: true, message: 'Lead updated successfully', data: { leads: { ...updatedLead, id: leadId } } });

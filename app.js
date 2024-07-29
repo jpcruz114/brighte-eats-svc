@@ -1,6 +1,7 @@
 const express = require('express');
 const sequelize = require('./models').sequelize;
 const leadRoutes = require('./routes/LeadRoutes');
+require('dotenv').config();  // Add this line to use environment variables from a .env file
 
 const app = express();
 
